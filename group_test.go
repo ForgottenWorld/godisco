@@ -14,6 +14,10 @@ func TestGroups(t *testing.T) {
 	}
 
 	gl, err := GetGroups(c, 0)
+	if err != nil {
+		t.Errorf("unexpected failure retrieving group list: %v", err)
+		return
+	}
 
 	for _, v := range gl.Groups {
 		n := "TestGroup-" + v.Name
