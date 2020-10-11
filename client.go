@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strings"
 )
 
@@ -73,15 +72,13 @@ func (c *Client) do(req *http.Request) ([]byte, int, error) {
 
 // Post to resource string the data provided
 func (c *Client) Post(resource string, data []byte) ([]byte, int, error) {
-	apiAuth := url.Values{}
-	apiAuth.Set("api_key", c.key)
-	apiAuth.Add("api_username", c.user)
-	url := fmt.Sprintf("%s%s?%s", c.domain, resource, apiAuth.Encode())
+	url := fmt.Sprintf("%s%s", c.domain, resource)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	if err != nil {
 		return nil, 0, err
 	}
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Add("Api-Key", c.key)
 
 	return c.do(req)
 }
