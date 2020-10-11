@@ -19,25 +19,25 @@ func TestGroups(t *testing.T) {
 		return
 	}
 
-	for _, g := range gl.Groups {
-		n := "TestGroup-" + g.Name
+	for _, group := range gl.Groups {
+		n := "TestGroup-" + group.Name
 		t.Run(n, func(t *testing.T) {
-			gi, err := GetGroup(c, g.Name)
+			gi, err := GetGroup(c, group.Name)
 			if err != nil {
-				t.Errorf("unexpected failure retrieving %s group: %v", g.Name, err)
+				t.Errorf("unexpected failure retrieving %s group: %v", group.Name, err)
 				return
 			}
 
 			t.Logf("Group %s retrieved", gi.Group.Name)
 
 			if gi.Group.VisibleMembers {
-				gm, err := GetGroupMembers(c, g.Name, 0)
+				gm, err := GetGroupMembers(c, group.Name, 0)
 				if err != nil {
-					t.Errorf("unexpected failure retrieving %s group members: %v", g.Name, err)
+					t.Errorf("unexpected failure retrieving %s group members: %v", group.Name, err)
 					return
 				}
 
-				t.Logf("Group %s has %d members", g.Name, len(gm.Members))
+				t.Logf("Group %s has %d members", group.Name, len(gm.Members))
 			}
 		})
 	}
