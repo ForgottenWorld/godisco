@@ -8,14 +8,14 @@ import (
 // Group information about a group.
 type Group struct {
 	ID             int    `json:"id"`
-	Automatic      bool   `json:"automatic"`
-	Name           string `json:"name"`
+	TrustLevel     int    `json:"grant_trust_level"`
 	UserCount      int    `json:"user_count"`
 	Primary        bool   `json:"primary_group"`
-	Title          string `json:"title"`
-	TrustLevel     int    `json:"grant_trust_level"`
+	Automatic      bool   `json:"automatic"`
 	Mentionable    bool   `json:"mentionable"`
 	VisibleMembers bool   `json:"can_see_members"`
+	Name           string `json:"name"`
+	Title          string `json:"title"`
 }
 
 // GroupResponse expected struct for a group.
