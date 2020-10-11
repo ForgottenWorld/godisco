@@ -1,7 +1,9 @@
-package godisco
+package godisco_test
 
 import (
 	"testing"
+
+	. "github.com/ForgottenWorld/godisco"
 )
 
 func TestGroups(t *testing.T) {
