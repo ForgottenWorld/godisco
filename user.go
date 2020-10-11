@@ -88,8 +88,8 @@ type userInfo struct {
 		Messages    bool   `json:"has_messages"`                       // false,
 		Mentionable bool   `json:"mentionable"`                        // false
 	} `json:"groups"` //
-	Featured []string `json:"featured_user_badge_ids"` // [],
-	Card     string   `json:"card_badge"`              // null
+	Featured []int  `json:"featured_user_badge_ids"` // [],
+	Card     string `json:"card_badge"`              // null
 }
 
 type user struct {
