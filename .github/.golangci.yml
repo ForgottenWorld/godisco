@@ -25,7 +25,6 @@ linters:
     - nakedret
     - nolintlint
     - rowserrcheck
-    - scopelint
     - staticcheck
     - structcheck
     - stylecheck
@@ -50,6 +49,7 @@ linters:
   # - gochecknoinits
   # - noctx
   # - wsl
+  # - scopelint
 
 issues:
   exclude-use-default: false
