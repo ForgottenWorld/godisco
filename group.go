@@ -5,23 +5,27 @@ import (
 	"fmt"
 )
 
-// GroupResponse expected struct for groups
+// Group information about a group
+type Group struct {
+	ID             int    `json:"id"`
+	Automatic      bool   `json:"automatic"`
+	Name           string `json:"name"`
+	UserCount      int    `json:"user_count"`
+	Primary        bool   `json:"primary_group"`
+	Title          string `json:"title"`
+	TrustLevel     int    `json:"grant_trust_level"`
+	Mentionable    bool   `json:"mentionable"`
+	VisibleMembers bool   `json:"can_see_members"`
+}
+
+// GroupResponse expected struct for a group
 type GroupResponse struct {
-	Basic struct {
-		ID          int    `json:"id"`
-		Automatic   bool   `json:"automatic"`
-		Name        string `json:"name"`
-		UserCount   int    `json:"user_count"`
-		AliasLevel  int    `json:"alias_level"`
-		Visible     bool   `json:"visible"`
-		Domain      string `json:"automatic_membership_email_domains"`
-		Retroactive bool   `json:"automatic_membership_retroactive"`
-		Primary     bool   `json:"primary_group"`
-		Title       string `json:"title"`
-		TrustLevel  int    `json:"grant_trust_level"`
-		Messages    bool   `json:"has_messages"`
-		Mentionable bool   `json:"mentionable"`
-	} `json:"basic_group"`
+	Group Group `json:"group"`
+}
+
+// GroupList expected struct for groups list
+type GroupList struct {
+	Groups []Group
 }
 
 // GroupMembersResponse defines list of members in a group
@@ -47,25 +51,39 @@ type Member struct {
 }
 
 // GetGroup show details of a given group
-func GetGroup(req Requester, groupName string) (groupInfo *GroupResponse, err error) {
+func GetGroup(req Requester, groupName string) (*GroupResponse, error) {
 	endpoint := fmt.Sprintf("/groups/%s.json", groupName)
 	body, _, err := req.Get(endpoint)
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(body, &groupInfo)
-	return groupInfo, err
+	var gr GroupResponse
+	err = json.Unmarshal(body, &gr)
+	return &gr, err
 }
 
-// GetGroupMembers list members of a given group
-func GetGroupMembers(req Requester, groupName string) (groupMemberInfo *GroupMembersResponse, err error) {
-	endpoint := fmt.Sprintf("/groups/%s/members.json?limit=10000", groupName)
+// GetGroups list some groups
+func GetGroups(req Requester, page int) (*GroupList, error) {
+	endpoint := fmt.Sprintf("/groups.json?page=%d", page)
 	body, _, err := req.Get(endpoint)
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(body, &groupMemberInfo)
-	return groupMemberInfo, err
+	var groups GroupList
+	err = json.Unmarshal(body, &groups)
+	return &groups, err
+}
+
+// GetGroupMembers list some members of a given group
+func GetGroupMembers(req Requester, groupName string, page int) (*GroupMembersResponse, error) {
+	endpoint := fmt.Sprintf("/groups/%s/members.json?page=%d", groupName, page)
+	body, _, err := req.Get(endpoint)
+	if err != nil {
+		return nil, err
+	}
+	var gmr GroupMembersResponse
+	err = json.Unmarshal(body, &gmr)
+	return &gmr, err
 }
 
 //@TODO
