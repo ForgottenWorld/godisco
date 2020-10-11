@@ -30,7 +30,7 @@ func TestGroups(t *testing.T) {
 					t.Errorf("unexpected failure retrieving %s group members: %v", v.Name, err)
 					return
 				}
-			
+
 				t.Logf("Group %s has %d members", v.Name, len(gm.Members))
 			}
 		})
